@@ -1,0 +1,41 @@
+html {
+    font-size: 18px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #c5e9f9;
+}
+
+body {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #c5e9f9;
+    padding: 0 20px 20px 20px;
+}
+
+h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 0;
+    padding: 20px 0;
+    color: #4b4bf4;
+    text-shadow: 3px 3px 0.5px white;
+}
+h2 {
+    font-size: 1.4rem;
+}
+h3 {
+    font-size: 1.2rem;
+}
+h4 {
+    font-size: 1.1rem;
+}
+
+a:hover {
+    color: rgb(46, 237, 254);
+}
+
+a:visited {
+    color: black
+}
+
+
+/* comment */
