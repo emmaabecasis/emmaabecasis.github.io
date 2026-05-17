@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Support Vector Machines</title>
+        <link rel="stylesheet" href="style.css" >
+        <meta charset = "utf-8" />
+        <meta name="viewport" content="width=device-width" />
+    </head>
+
+    <body>
+        <header> <h1>Machine Learning</h1></header>
+        
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="logreg.html">Logistic Regression</a></li>
+            <li><a href="linreg.html">Linear Regression</a></li>
+            <li><a href="randomforest.html">Random Forests</a></li>
+            <li><a href="svm.html">Support Vector Machines</a></li>
+            <li><a href="projects.html">Application Projects</a></li>
+          </ul>
+        </nav>
+
+        <h2>Support Vector Machines</h2>
+        <p> Support Vector Machine (SVM) is a supervised learning model used for both regression and classification tasks; they are more commonly used for classification problems. 
+          On a high level, it operates by finding the optimal hyperplane to separate classes and maximize the distance between them to minimize error. </p>
+
+        <h2>Mathematical Basis</h2>
+        <p> Key Terms:
+          <ul>
+            <li>Hyperplane: the decision boundary separating different classes in the feature space.</li>
+            <li>Support Vectors: the closest data points to the hyperplane.</li>
+            <li>Margin: distance between hyperplane and support vectors.</li>
+            <li>Kernel: function that maps data into a higher dimensional space to handle data that is not linearly separable.</li>
+            <li>C: regularization term that balances margin maximization and misclassification penalties. A higher C forces a stricter penalty on errors. 
+              In the following image, L2 would be chosen as the best hyperplane because it maximizes the distance between the hyperplane and the nearest points.</li>
+          </ul> </p>
+          <br><img src="images/svmgraph.png" width="50%" alt="SVM Graph">
+          <p>
+          If there is an outlier, the SVM can ignore it when finding the best hyperplane. When using a hard margin, 
+          the SVM may include more outliers to create the maximum distance between classes; this could lead to overfitting.
+           When using a soft margin, the SVM will ignore outliers, allowing for some misclassifications to improve generalizability. 
+        </p> 
+
+        <h4>Kernels:</h4>
+        <p>Data is considered to be not linearly separable if a straight line cannot divide classes. Kernels are used to map data that is not linearly separable onto a higher dimension where it can be separated by a straight line. 
+          There are different types of kernel functions that can be used, including a linear kernel, polynomial kernel, or radial basis function (RBF) kernel. 
+          <br><br>If you are not familiar with linear algebra, the following formulas will be difficult to follow. However, if you know the theoretical basis of SVM described above, then you are ready to implement one!
+          The equation for the linear hyperplane identified by SVM is:
+          <br><img src="images/svmeq.png" width="20%" alt="SVM Equation">
+          <br>Where w is the normal vector perpendicular to the hyperplane (making w transpose parallel to the hyperplane) and b is the bias term representing the distance of the hyperplane from the origin along vector w. X is the input vector.
+          <br><br>The distance between a data point xi and the hyperplane is equal to: 
+          <br><img src="images/svmdistance.png" width="20%" alt="SVM Distance">
+          <br>The denominator of this equation is the Euclidean norm (length) of the weight vector w.
+          <br>In a binary classification problem, If the distance from a datapoint to the hyperplane (wTx + b) is greater than or equal to 0, the data point will be classified as class 1. If the distance is less than 0, the datapoint will be classified as -1. 
+          <br><br>To maximize the margin between two classes while correctly classifying data points, the following equation is used:
+          <br><img src="images/svmmax.png" width="20%" alt="SVM Optimization"> with the constraint <img src="images/svmconstraints.png" width="25%" alt="SVM Constraints">
+          </p>
+          <ul>
+            <li>Yi is the class label for each training data point</li>
+            <li>Xi is the feature vector for the i-th training point</li>
+            <li>M is the total number of training points</li>
+          </ul>
+        <p>The constraint ensures that each point is outside the margin and is correctly classified. The equations used for soft margins are slightly different because they provide a balance between margin maximization and penalty for misclassifications.
+          <sup id="fnref1"><a href="#fn1" class="footnote-ref">1</a></sup>
+        </p>
+
+      <h2>Implementation</h2>
+      <p>This is an example of using an SVM for classification. Feel free to follow along on Colab or another coding platform!</p>
+      <ol>
+        <li><img src="images/svm1.png" width="100%" alt="SVM Step 1">
+          The first step is to import the necessary packages. 
+          <ul>
+            <li>Load_breast_cancer is a function that allows us to access a data set that is originally from the Diagnostic Wisconsin Breast Cancer Database. The dataset includes 30 different features describing characteristics of a breast mass for 569 different samples.
+              <sup id="fnref2"><a href="#fn2" class="footnote-ref">2</a></sup> 
+              Each sample is classified as malignant or benign. The goal of the SVM is to classify samples as malignant or benign. </li>
+            <li>Matplotlib.pyplot will help visualize the results in a graph. </li>
+            <li>DecisionBoundaryDisplay will display the decision boundary produced by the SVM in a graph. </li>
+            <li>Train_test_split will split the input data into training and test sets. </li>
+            <li>SVC is a Support Vector Classifier from Scikit-learn</li>
+          </ul>
+        </li>
+        <li><img src="images/svm2.png" width="100%" alt="SVM Step 2">
+          Then, we will load the breast cancer dataset into an X array containing the features for each sample and a y array containing the target classification (malignant or benign) for each sample. For this example, we are only using two of the explanatory features so the hyperplane can be visualized in a graph. 
+          However, feel free to run the SVM using all of the features and compare the results to using only two features. 
+          <br><br>We will also split the data into training and testing sets with a test size of 20% using the train_test_split function.
+        </li>
+        <li><img src="images/svm3.png" width="100%" alt="SVM Step 3">
+          Next we will create an SVM object. We set the kernel to linear which assumes our data is linearly separable. We also set the C value equal to 1 which is a standard value for the regularization parameter. There are many other hyperparameters that can be set and you can explore them on the 
+          <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">SVC documentation</a>.
+          <br><br>We will also fit our data to the training data and make predictions on the test data, storing them as y_pred. 
+        </li>
+        <li><img src="images/svm4.png" width="100%" alt="SVM Step 4">
+          Finally, we will display the results of the SVM using the Decision Boundary Display function. Specifically, we use the DecisionBoundaryDisplay.from_estimator function to plot the decision boundary of the svm object we created. We input the estimator (our SVC) and input dataset X. The function will plot all of the points in the input dataset and color them according to the output of the SVM.
+          We will use matplotlib pyplot (plt) to display the scatterplot. Click below to see what the resulting image looks like!
+        </li>
+      </ol>
+      <!--The following image is meant to be displayed only when the user clicks a button-->
+      <button id="showImage">Show SVM Results</button>
+      <img id="SVMResults" src="images/svmresultgraph.png" alt="SVM Decision Boundary" style="display: none" width="60%">
+
+    <h2>Useful Applications</h2>
+    <p>SVM is commonly used for classification problems and occasionally for regression problems. It works well with high dimensional data, meaning there is a large number of features, that can be problematic for other models. Some common applications are:</p>
+    <ul>
+      <li>Face detection: SVMs classify parts of an image as face and non-face.</li>
+      <li>Text categorization: classify documents into different categories such as news, emails, or webpages.</li>
+      <li>Image classification: identify objects within images.</li>
+      <li>Bioinformatics: classify people based on genetic sequences or other biological data.<sup id="fnref3"><a href="#fn3" class="footnote-ref">3</a></sup></li>
+    </ul>
+
+    <footer>
+    <hr class="footnotes-sep">
+    <section class="footnotes">
+  <ol>
+    <li id="fn1">
+     GeeksforGeeks. “Support Vector Machine (SVM) Algorithm.” GeeksforGeeks, 20 Jan. 2021, www.geeksforgeeks.org/machine-learning/support-vector-machine-algorithm/.. This page was adapted from this source.
+      <a href="#fnref1" title="Return to text">↩</a>
+    </li>
+    <li id="fn2">
+     Wolberg, William, et al. “UCI Machine Learning Repository.” Archive.ics.uci.edu, 31 Oct. 1995, archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic.
+    <a href="#fnref2" title="Return to text">↩</a>
+    </li>
+    <li id="fn3">
+      DataFlair Team. “Real-Life Applications of SVM (Support Vector Machines) - DataFlair.” DataFlair, 16 Nov. 2018, data-flair.training/blogs/applications-of-svm/.
+      <a href="#fnref3" title="Return to text">↩</a>
+    </li>
+
+  </ol>
+    </section>
+  </footer>
+
+    <script src="main.js"></script>
+    </body>
+</html>

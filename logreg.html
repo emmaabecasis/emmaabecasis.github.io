@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Logistic Regression</title>
+        <link rel="stylesheet" href="style.css" >
+        <meta charset = "utf-8" />
+        <meta name="viewport" content="width=device-width" />
+    </head>
+
+    <body>
+        <header> <h1>Machine Learning</h1></header>
+        
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="logreg.html">Logistic Regression</a></li>
+            <li><a href="linreg.html">Linear Regression</a></li>
+            <li><a href="randomforest.html">Random Forests</a></li>
+            <li><a href="svm.html">Support Vector Machines</a></li>
+            <li><a href="projects.html">Application Projects</a></li>
+          </ul>
+        </nav>
+
+        <h2>Logistic Regression</h2>
+        <p> Logistic regression is a linear model that uses a sigmoidal curve to predict the probability 
+          that a data value belongs to a specific class. There are a few types of logistic regression (multinomial and ordinal), 
+          but this page only focuses on binomial logistic regression. The image below shows a sigmoidal curve. The probability of a data point belonging to a given class is on 
+          the y-axis while the z-score of the data point is represented on the x-axis. </p>
+          <img src="images/sigmoidcurve.png" alt="Sigmoid Curve Example"><sup id="fnref1"><a href="#fn1" class="footnote-ref">1</a></sup>
+
+        <p> It is used to interpret relationships between input variables and output variables when the output variable is binomial. An example of this would be predicting if someone has or does not 
+          have a certain disease given information about presence of certain symptoms.</p>
+        
+        <h3>Mathematical Basis</h3>  
+        <p>Logistic regression models the chance of a certain outcome given individual characteristics. The goal of a logistic regression is to output a probability from 0 to 1 from a linear equation. If p(x) is the linear function, we can bound it to have an output between 0 and 1 by considering log (p(x) / 1-p(x)). 
+          We can create the linear function: </p>
+          <img src="images/lrmath1.webp" alt="Logistic Regression Equation">
+        <p>The linear function is a linear combination of the input features. p(x) will be given by the sigmoid function: </p>
+          <img src="images/lrmath2.webp" alt="Logistic Regression Sigmoid Function">
+          <p>We can then choose a threshold for the probability output. For example, if the threshold is 0.5, any output above 0.5 will be considered y=1 and any output below 0.5 will be considered y=0. y=1 and
+             y=0 represent the two binary classes we are trying to predict.</p>
+
+        <h3>Model Fitting</h3>
+        <p>The logistic regression model can be trained on the input data x using a likelihood function that can be written as: </p>
+        <img src="images/lrmath3.webp" alt="Logistic Regression Likelihood Function">
+        <p>Taking the log of this function results in a sum: </p>
+        <img src="images/lrmath4.webp" alt="Logistic Regression Log Likelihood Function">
+        <p>We can substitute in the equations from above: </p>
+        <img src="images/lrmath5.webp" alt="Logistic Regression Log Likelihood Function 2">
+        <sup id="fnref2"><a href="#fn2" class="footnote-ref">2</a></sup>
+        <p>Next, we must take the maximum of the function above by implementing gradient ascent.</p>
+        <ul>
+          <li>Typically, to find the maximum of a function, the derivative would be set to 0 (indicating a slope of 0 and a potential maximum point)</li>
+          <li>However, for complex likelihood functions, setting the derivative = 0 would result in an equation that is difficult to be solved</li>
+          <li>Gradient ascent is a technique that involves moving iteratively to optimal parameter values that will maximize the function</li>
+          <li>Partial derivatives are repeatedly calculated and parameter estimates are updated in the direction of steepest ascent (climbing towards the maximum value)
+            <sup id="fnref3"><a href="#fn3" class="footnote-ref">3</a></sup>
+          </li>
+        </ul>
+        <p> The parameters resulting in the maximum value for the function will be the hyperparameters for the logistic regression model.</p>
+
+        <h3>Implementation</h3>
+        <p>Before implementing a logistic regression, a few conditions must be met: </p>
+        <ul>
+          <li>All data points must be independent of each other</li>
+          <li>The dependent/output variable must be binary</li>
+          <li>There must be a linear relationship between the independent variables and the log odds of the dependent variable</li>
+          <li>There should be no multicollinearity among the independent variables</li>
+          <li>There should be no extreme outliers in the dataset</li>
+          <li>There must be a large sample size</li>
+        </ul>
+
+        <p>Ensure that your dataset is in the form of a matrix with data points as rows and variables as columns. One column should include the binary classification for each data point that is
+          the output for the machine learning model. 
+        <br><br>
+        You can follow along with this example on Colab or another coding platform! 
+        </p>
+
+        <ol>
+          <li><img src="images/logreg1.png" width=100% alt="Logistic Regression Step 1">
+          The first step is to download the necessary functions and data from scikit-learn. 
+            <ul>
+              <li>Load_breast_cancer: This is a function that allows us to access a data set that is originally from the Diagnostic Wisconsin Breast Cancer Database.
+                <sup id="fnref5"><a href="#fn5" class="footnote-ref">5</a></sup>
+                The dataset includes 30 different features describing characteristics of a breast mass for 569 different samples. Each sample is classified as malignant or benign. The goal of the logistic regression model is to predict if a sample is malignant or benign.</li>
+              <li>LogisticRegression: this is the function that will actually run the logistic regression model.</li>
+              <li>Train_test_split: this is a helpful function for splitting the dataset into training and test sets.</li>
+              <li>Accuracy_score: This function calculates the accuracy of the logistic regression. We could also use other classification measures, such as AUC or precision, and these can also be downloaded from Scikit-learn. </li>
+            </ul>
+        </li>
+        <li><img src="images/logreg2.png" width=100%alt="Logistic Regression Step 2">
+          Next, we will load the breast cancer dataset into two arrays labeled X and y by running the load_breast_cancer function. 
+          The return_X_y parameter returns the dataset as two separate objects. X is an array that 
+          contains all of the features, and y is an array that contains the classification of each datapoint as malignant or benign. 
+          The values of y are actually a series of 0s and 1s, with 1 representing a malignant tumor and 0 representing a benign tumor, because the 
+          logistic regression can only interpret numerical values.
+          <br><br>
+          We will also split the dataset into training and test sets using the train_test_split function. The test_size parameter indicates that 20% of the data will be put into the training set, and the random state value ensures the function will split the data the same way each time it is run. We output four arrays:
+          <ul>
+            <li>X_train: this array contains the features for the training set</li>
+            <li>X_test: this array contains the features for the test set</li>
+            <li>y_train: this array contains the classifications for the training set</li>
+            <li>y_test: this array contains the classifications for the test set</li>
+          </ul>
+        </li>
+        <li><img src="images/logreg3.png" width=100% alt="Logistic Regression Step 3">
+          Now we create a new object, clf, which stands for classifier. We initiate a new logistic regression model using the following parameters:
+          <ul>
+            <li>Max_iter: This is the maximum number of iterations we will allow for the model to converge during gradient ascent. A higher value may lead to excessive time and computational power being used, and a lower value may lead to failure to converge. </li>
+            <li>Random_state: Setting a random state value ensures that the logistic regression model will output the same results every time it is run.</li>
+          </ul>
+          Then we fit the logistic regression to the training data using clf.fit so the model can learn the patterns in the data. 
+        </li>
+        <li><img src="images/logreg4.png" width=100% alt="Logistic Regression Step 4">
+          <sup id="fnref4"><a href="#fn4" class="footnote-ref">4</a></sup>
+          Finally, we will evaluate the accuracy of our model using the accuracy_score function and inputting the classifications 
+          for the data points in the test set and the predictions the model makes on the training set (clf.predict(X_test)). We will print our results to two
+          decimal places in the last line of code. If you followed the code above, you should get an accuracy of 96.49%.
+        </li>
+        </ol>
+
+        <h3>Useful Applications</h3>
+        <p>Logistic regression is useful for many classification problems. Here are some examples:</p>
+        <ul>
+          <li>Credit Scoring</li>
+          <li>Medicine (just like the example above!)</li>
+          <li>Text editing</li>
+          <li>Hotel booking</li>
+          <li>Gaming
+            <sup id="fnref6"><a href="#fn6" class="footnote-ref">6</a></sup>
+          </li>
+        </ul>
+        <footer>
+          <footer>
+    <hr class="footnotes-sep">
+<section class="footnotes">
+  <ol>
+    <li id="fn1">
+     “Logistic Regression Technique Explained with R & Python.” K2 Analytics, 3 May 2020, www.k2analytics.co.in/introduction-to-logistic-regression/.
+      <a href="#fnref1" title="Return to text">↩</a>
+    </li>
+    <li id="fn2">
+      Rai, Khushwant. “The Math behind Logistic Regression.” Medium, 14 June 2020, medium.com/analytics-vidhya/the-math-behind-logistic-regression-c2f04ca27bca.
+      <a href="#fnref2" title="Return to text">↩</a>
+    </li>
+    <li id="fn3">
+      Cain, Jerr. 22: Gradient Ascent, Logistic Regression. 2025, web.stanford.edu/class/archive/cs/cs109/cs109.1256/lectures/22_logistic_regression.pdf. Accessed 14 May 2026.
+      <a href="#fnref3" title="Return to text">↩</a>
+    </li>
+    <li id="fn4">
+      GeeksforGeeks. “Logistic Regression in Machine Learning.” GeeksforGeeks, 9 May 2017, www.geeksforgeeks.org/machine-learning/understanding-logistic-regression/.
+      <a href="#fnref4" title="Return to text">↩</a>
+    <li id="fn5">
+      Wolberg, William, et al. “UCI Machine Learning Repository.” Archive.ics.uci.edu, 31 Oct. 1995, archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic.
+      <a href="#fnref5" title="Return to text">↩</a>
+    </li>
+    <li id="fn6">
+      ActiveWizards. “5 Real-World Examples of Logistic Regression Application.” ActiveWizards: Data Science and Engineering Lab, activewizards.com/blog/5-real-world-examples-of-logistic-regression-application.
+      <a href="#fnref6" title="Return to text">↩</a>
+    </li>
+  </ol>
+</section>
+  </footer>
+        </footer>
+
+    <script src="main.js"></script>
+    </body>
+</html> 

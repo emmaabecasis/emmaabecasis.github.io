@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Application Projects</title>
+  <link rel="stylesheet" href="style.css" >
+  <meta charset = "utf-8" />
+  <meta name="viewport" content="width=device-width" />
+</head>
+
+<body>
+    <header> <h1>Machine Learning</h1></header>
+    
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="logreg.html">Logistic Regression</a></li>
+        <li><a href="linreg.html">Linear Regression</a></li>
+        <li><a href="randomforest.html">Random Forests</a></li>
+        <li><a href="svm.html">Support Vector Machines</a></li>
+        <li><a href="projects.html">Application Projects</a></li>
+      </ul>
+    </nav>
+
+    <h2>Application Projects</h2>
+    <p>Machine learning is a powerful tool used in nearly every area of work. This page provides ideas of projects to apply machine learning related to business, healthcare, and sports/gaming. 
+      Machine learning can be used in countless other ways than the ideas given here, but these are a great place to get started using machine learning! These projects can be carried out using 
+      open-source data on any coding platform. Google Colab is a free online coding platform for anyone with a Google account.
+      <br><br>The open source data sets described here are housed in the 
+      <a href="https://archive.ics.uci.edu/">University of California Irvine Machine Learning Repository</a>. 
+      This repository contains 689 datasets that are useful for machine learning tasks. If you follow the links to the dataset, you can use the “Import in Python” button on the UC Irvine site to find 
+      the exact code needed to download the dataset.
+</p>
+
+  <table>
+    <tr>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Dataset</th>
+      <th>Task</th>
+    </tr>
+    <tr>
+      <td rowspan="3">Business</td>
+      <td><a href="https://archive.ics.uci.edu/dataset/222/bank+marketing">Bank Marketing</a></td>
+      <td>This dataset contains 41,118 samples with 20 explanatory variables each. The input variables contain information about clients and phone calls of a Portuguese banking institution. 
+        The target variable is whether or not the client will subscribe to a bank term deposit.</td>
+      <td>Use a classification model to predict if a certain client will submit a deposit.</td>
+    </tr>
+    <tr>
+      <td><a href="https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset">Online Retail</a></td>
+      <td>This dataset contains information on 12,330 transactions on an online retail site during a one-year period. There are 17 input features about each user’s visit to the site. 
+        The target variable is whether or not a user made a purchase.</td>
+      <td>Use a classification model to predict if a certain user will make a purchase.</td>
+    </tr>
+    <tr>
+      <td><a href="https://archive.ics.uci.edu/dataset/477/real+estate+valuation+data+set">Real Estate Valuation</a></td>
+      <td>This dataset contains information on 414 houses in New Taipei City, Taiwan. There are six inputs related to each house including the house age and distance to the nearest metro station. The output is the house price of unit area.</td>
+      <td>Use a regression model to predict the price of a house based on its features.</td>
+    </tr>
+    <tr>
+      <td rowspan="3">Healthcare</td>
+      <td><a href="https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition">Estimating Obesity Levels</a></td>
+      <td>This dataset contains 2,111 samples with information on 16 input features. The inputs include health, physical activity, and family information. 
+        The output is obesity level, ranging from Insufficient Weight to Obesity Type III.</td>
+      <td>Use a classification model to predict the level of obesity based on eating habits and physical condition.</td>
+    </tr>
+    <tr>
+      <td><a href="https://archive.ics.uci.edu/dataset/45/heart+disease">Heart Disease</a></td>
+      <td>This dataset contains 313 samples with 13 different input features related to health information. 
+        The output variable is heart disease diagnosis; it ranges from 0 to 4, with 0 being no diagnosis.</td>
+      <td>Change all values that are 1, 2, 3, or 4 in the “num” column (representing diagnosis of heart disease) to be 1. This will make 1 represent diagnosis of heart disease while 0 represents no diagnosis. 
+        Then, use a classification model to predict heart disease diagnosis.</td>
+    </tr>
+    <tr>
+      <td><a href="https://archive.ics.uci.edu/dataset/174/parkinsons">Parkinson's Disease</a></td>
+      <td>This dataset includes information on 31 people of which 23 are diagnosed with Parkinson’s Disease. Each row indicates a voice recording from one of these individuals and each column is a specific voice measure. 
+        The output variable is in the “target” column. 1 indicates Parkinson’s Disease and 0 indicates no Parkinson’s Disease.</td>
+      <td>Use a classification model to predict if someone has Parkinson’s disease based on voice information.</td>
+    </tr>
+    <tr>
+      <td rowspan="3">Sports and Gaming</td>
+      <td><a href="https://archive.ics.uci.edu/dataset/158/poker+hand">Poker</a></td>
+      <td>This dataset contains 1,025,010 data points with each data point representing a hand of five playing cards from a deck of 52. There are ten input features, including suit and rank information for all five cards. The output variable is the poker hand. The variable is integer-valued from 0 to 9. 
+        Information on what each integer indicates can be found on the UCI website. </td>
+      <td>Use a multiclass classification model to predict poker hands.</td>
+    </tr>
+    <tr>
+      <td><a href="https://archive.ics.uci.edu/dataset/858/rocket+league+skillshots">Rocket League Skillshots</a></td>
+      <td>This dataset contains 297 datapoints. There are 18 input features including player information and in-game metrics. The target variable (“class_number”) is the skill a user is performing, such as ceiling shot or front flick. </td>
+      <td>Use a multiclass classification model to predict activity type in Rocket League.</td>
+    </tr>
+  </table>
+
+
+<script src="main.js"> </script>
+</body>
+</html>

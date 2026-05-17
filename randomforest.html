@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Forests</title>
+  <link rel="stylesheet" href="style.css" >
+  <meta charset = "utf-8" />
+  <meta name="viewport" content="width=device-width" />
+</head>
+
+<body>
+    <header> <h1>Machine Learning</h1></header>
+    
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="logreg.html">Logistic Regression</a></li>
+        <li><a href="linreg.html">Linear Regression</a></li>
+        <li><a href="randomforest.html">Random Forests</a></li>
+        <li><a href="svm.html">Support Vector Machines</a></li>
+        <li><a href="projects.html">Application Projects</a></li>
+      </ul>
+    </nav>
+
+    <h2>Random Forests</h2>
+    <p> Random forests can be used for either classification or regression problems. 
+      Random forests use many decision trees to make an overall decision about an input value. </p>
+
+    <h3>Decision Trees</h3>
+    <img src="images/treepic.png" width="50%" alt="Decision Tree"><sup id="fnref1"><a href="#fn1" class="footnote-ref">1</a></sup>
+    <p> Decision trees break down the input features into separate regions to make predictions. It maps an input vector x to a predicted output or y value.
+       The prediction function for a decision tree is: </p>
+
+       <img src="images/decisiontreefunc.png" width="25%" alt="Decision Tree Function">
+    <ul>
+      <li>T: number of terminal nodes/leaves in the tree (these represent the end of a decision path)</li>
+      <li>Cm: the prediction value assigned to Rm (the most common class in classification problems or the mean of the target variable in regression problems)</li>
+      <li>Rm: the m-th region (leaf) of the feature space (a specific set of features)</li>
+      <li><img src="images/indicatorfunc.png" width="10%" alt="Indicator Function">:indicator function that equals 1 if x belongs to region Rm and 0 if not</li>
+    </ul>
+    <p>Essentially, for a given input vector x, the tree will go down its structure until 
+      reaching a terminal node where the prediction cm is made based on the values in that region of features.</p>
+    <h4>Classification Trees</h4>
+      <p>Trees will assign class labels to each region. The constant cm is the most common class in the training data within a certain region Rm: 
+        <br><img src="images/cmfunc.png" width="25%" alt="Classification Tree Function">
+        <br>This sets the predicted class cm equal to the class k with the highest number of samples in the region.
+      </p>
+    <script src="main.js"></script>
+
+    <h4>Regression Trees</h4>
+    <p>Decision trees output a continuous value by averaging the values of the target variable for all training samples in a given region. </p>
+    
+    <h4>Tree Construction</h4>
+    <p>Decision trees use a specific splitting criterion to determine how to split data at each node. </p>
+    <ul>
+      <li>Gini index (classification): measures impurity at a given node with a lower value indicating a purer node. The index represents the probability that a randomly selected sample would be misclassified if it were labeled according to the distribution at a node. In the following equation for the Gini index, pk is the proportion of samples in class k at node t. 
+    <br><img src="images/giniindex.png" width="18%" alt="Gini Index"></li>
+    <li>Entropy (classification): measures uncertainty in class distribution at a given node. A lower value means that a node contains mostly one class. This value quantifies the amount of information needed to classify a new sample. In the equation for entropy, pk is the proportion of samples in class k. 
+    <br><img src="images/entropy.png" width="25%" alt="Entropy"></li>
+    <li>Variance reduction (regression): splits in regression trees are chosen to minimize the variance of the target variable at each node. This minimizes the prediction error. In the following equation, Var(t) is the variance of the target variable at the current node, N is the total number of samples at the current node, NL and NR are the number of samples in the left and right child nodes, 
+      and RL and RR are the left and right regions created by the split.
+    <br><img src="images/varreduction.png" width="35%" alt="Variance Reduction"></li>
+    </ul>
+    <p>For more information on tree construction, <a href="https://mlu-explain.github.io/decision-tree/">this website</a> has an interactive explanation! </p>
+
+    <h3>Random Forest Ensemble</h3>
+    <img src="images/rfpic.jpeg" width="50%" alt="Random Forest"><sup id="fnref2"><a href="#fn2" class="footnote-ref">2</a></sup>
+    <p>Bootstrap sampling involves repeatedly taking samples from a dataset with replacement, treating the original sample as a population.
+      <br><br>
+      Bagging/Bootstrap Aggregating averages the predictions from many models trained on different bootstrap samples to reduce variance. This equation takes the average prediction from b bootstrap samples using B bootstrapped models. This also prevents overfitting.  
+      <br><img src="images/bagging.png" width="25%" alt="Bagging">
+      <br><br>
+      Random forests combine bagging with feature selection using this equation: 
+      <br><img src="images/rfeq.png" width="25%" alt="Random Forest Equation">
+      <br><br>Each bootstrap model fb is trained on a bootstrap sample with a random subset of features to reduce variance and correlation between trees. The error of the random forest model is reduced by reducing the correlation between trees through random feature selection.
+      <sup id="fnref3"><a href="#fn3" class="footnote-ref">3</a></sup>
+      <br><br>The same website mentioned above also has a <a href="https://mlu-explain.github.io/random-forest/">random forest explanation</a> if you are confused!
+    </p>
+
+    <h3>Implementation</h3>
+    <h4>Regression:</h4>
+    <p>We will start with a random forest regression example using Scikit-learn. You can follow along on Colab or another platform.</p>
+    <ol>
+      <li>
+        <img src="images/rfr1.png" width=100% alt="Random Forest Regression Step 1">
+        First, we import the necessary packages from Scikit-learn. The linnerud dataset contains 3 physiological variables (the targets) and 3 exercise variables 
+        (the explanatory variables) collected from 20 middle-aged men in a fitness club.<sup id="fnref4"><a href="#fn4" class="footnote-ref">4</a></sup>
+      </li>
+      <li>
+        <img src="images/rfr2.png" width=100% alt="Random Forest Regression Step 2">
+        Next, we will load the dataset into two arrays. The X array contains the 3 exercise variables and the y array contains the 3 physiological variables. We only want to predict 
+        one of the physiological variables, so we will select only one from the y array.
+      </li>
+      <li>
+        <img src="images/rfr3.png" width=100% alt="Random Forest Regression Step 3">
+        Now we can use the train_test_split function to split the dataset into the training and testing sets. 
+        The test set contains 20% of the total data (set by the test_size parameter). The random_state parameter ensures the same data will be put into the test set each time the line of code is run.
+      </li>
+      <li>
+        <img src="images/rfr4.png" width=100% alt="Random Forest Regression Step 4">
+        We will now initialize the random forest regressor and fit it to the training data. We are trying to predict a physiological variable from exercise variables for 
+        20 middle-aged men. Using the model, we will make predictions on the test set and store these in y_pred.
+        <br><br>When initializing the model, you can set many different hyperparameters to fine tune the model, such as the number of trees, the criterion for evaluating the quality of splits, the maximum depth of the tree, and more that can be found 
+        in the Scikit-learn documentation for a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">Random Forest Regressor</a>.
+      </li> 
+      <li>
+        <img src="images/rfr5.png" width=100% alt="Random Forest Regression Step 5">
+        Finally, we will evaluate the model using the mean squared error and r-squared. The r-squared value for this dataset is negative, indicating that the regression model is a bad fit for this data. This could be because the exercise data is not a good predictor 
+        for the physiological variable or there is too little training data for the model to perform well. 
+      </li>
+    </ol>
+
+  <h4>Classification:</h4>
+  <p>Random forests are also useful for classification. This is an example using Scikit-learn’s Random Forest Classifier.</p>
+  <ol>
+    <li>
+      <img src="images/rfc1.png" width="100%" alt="Random Forest Classification Step 1">
+      We will start by importing the necessary packages. This time we will load the digits dataset, which contains 1,797 8x8 images of handwritten digits. 
+      <sup id="fnref5"><a href="#fn5" class="footnote-ref">5</a></sup>
+      Our goal is to classify the images as digits from 0 to 9. The input images look something like this (this image shows a 7x7 image of a handwritten digit): 
+      <br><img src="images/digitex.png" width="20%" alt="Digit Example"><sup id="fnref6"><a href="#fn6" class="footnote-ref">6</a></sup>
+      <br>We will also import the Random Forest Classifier model, evaluation metrics (confusion matrix and accuracy score), and the train_test_split function.
+    </li>
+    <li>
+      <img src="images/rfc2.png" width="100%" alt="Random Forest Classification Step 2">
+      The next step is to load the digits dataset into an X and y array. The X array contains the information about the images and the y array contains the digit labels. We will also split the dataset into training and test sets with a test size of 20%. 
+    </li>
+    <li>
+      <img src="images/rfc3.png" width="100%" alt="Random Forest Classification Step 3">
+      Now we can initialize the Random Forest Classifier object. Just like in the regression model, there are many different hyperparameters you can edit that are detailed in the 
+      <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html">Random Forest Classifier documentation</a>. 
+      We will also fit the model using the training data and make predictions on the testing data, storing the results in y_pred.
+    </li>
+    <li>
+      <img src="images/rfc4.png" width="100%" alt="Random Forest Classification Step 4">
+      The final step is to evaluate the model using the accuracy score and confusion matrix. The accuracy of 97% means that our model was able to correctly identify the digits 97% of the time! We can visualize the exact results in the confusion matrix. 
+      The diagonal entries indicate correct predictions, while the off-diagonal entries represent incorrect predictions.
+    </li>
+  </ol>
+
+  <h3>Useful Applications</h3>
+  <p>Random forests are robust models commonly used for both regression and classification problems. Some specific applications are: </p>
+  <ul>
+    <li>Healthcare: random forests are helpful for making early diagnoses and can identify more complex patterns than linear models. They are also cheaper and easier to interpret than neural networks, which is a complex form of machine learning.</li>
+    <li>Stock market: recursive partitioning can divide stocks into groups based on their market value and compare returns on investment.</li>
+    <li>E-commerce: predict whether user will buy a product after viewing an ad.<sup id="fnref7"><a href="#fn7" class="footnote-ref">7</a></sup></li>
+  </ul>
+
+<footer>
+    <hr class="footnotes-sep">
+    <section class="footnotes">
+  <ol>
+    <li id="fn1">
+     Wilbur, Jared, and Lucía Santamaría. “Decision Trees.” Mlu-Explain.github.io, mlu-explain.github.io/decision-tree/.
+      <a href="#fnref1" title="Return to text">↩</a>
+    </li>
+    <li id="fn2">
+      Nur, Zikri & Wijaya, Rifki & Wulandari, Gia. (2024). Optimizing Emotion Recognition with Wearable Sensor Data: Unveiling Patterns in Body Movements and Heart Rate through Random Forest Hyperparameter Tuning. JURNAL MEDIA INFORMATIKA BUDIDARMA. 8. 1472. 10.30865/mib.v8i3.7761. 
+      <a href="#fnref2" title="Return to text">↩</a>
+    </li>
+    <li id="fn3">
+      Noguer, Miquel. The Mathematics of Decision Trees and Ensembles: Random Forests and Boosting. Jan. 2024, https://doi.org/10.2139/ssrn.4999900. Artificial Intelligence in Finance Institute.
+      <a href="#fnref3" title="Return to text">↩</a>
+    </li>
+    <li id="fn4">
+      “Toy Datasets.” Scikit-Learn, 2026, scikit-learn.org/stable/datasets/toy_dataset.html#linnerrud-dataset. Accessed 15 May 2026.
+      <a href="#fnref4" title="Return to text">↩</a>
+    </li>
+    <li id="fn5">
+     “UCI Machine Learning Repository.” Archive.ics.uci.edu, archive.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits.
+      <a href="#fnref5" title="Return to text">↩</a>
+    </li>
+    <li id="fn6">
+      Gugulothunagaraj. “Recognizing Handwritten Digits.” Medium, 5 Oct. 2021, medium.com/@gugulothunagaraj1999/recognizing-handwritten-digits-db2697b37aab. Accessed 15 May 2026.
+      <a href="#fnref6" title="Return to text">↩</a>
+    </li>
+    <li id="fn7">
+      Logunova, Inna. “Guide to Random Forest Classification and Regression Algorithms.” Serokell Software Development Company, 23 June 2022, serokell.io/blog/random-forest-classification.
+      <a href="#fnref7" title="Return to text">↩</a>
+    </li>
+  </ol>
+    </section>
+  </footer>
+
+
+<script src="main.js"></script>    
+</body>
+</html>

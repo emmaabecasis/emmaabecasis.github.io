@@ -8,7 +8,20 @@
   <meta name="viewport" content="width=device-width" />
 </head>
 <body>
-    <h1>Introduction to Machine Learning</h1>
+    <header> <h1>Machine Learning</h1></header>
+
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="logreg.html">Logistic Regression</a></li>
+        <li><a href="linreg.html">Linear Regression</a></li>
+        <li><a href="randomforest.html">Random Forests</a></li>
+        <li><a href="svm.html">Support Vector Machines</a></li>
+        <li><a href="projects.html">Application Projects</a></li>
+      </ul>
+    </nav>
+
+    <h2>Introduction to Machine Learning</h2>
     <p>Machine learning is a tool that has applications in a variety of 
       different fields. It has rapidly gained popularity and usage in recent 
       years due to larger datasets and improved computational power. Machine 
@@ -16,13 +29,17 @@
       data. Computers learn and improve based on data without being explicitly 
       programmed. Machine learning tools are used for image and speech 
       recognition, natural language processing, and other tasks in a wide 
-      variety of fields. </p>
+      variety of fields. 
+      <br>
+      <br>
+      The goal of this site is to provide an introduction to the fundamentals of machine learning and its applications 
+      on an accesible and understandable platform. There are many different coding languages used for machine learning, and Python is one of the most popular.
+      Python has many libraries for machine learning and data preprocessing. This website will use Python and its libraries to implement machine learning. While not required,
+      some background experience with Python will be useful.</p>
       
-      <p> Feel free to 
-        <a href="mailto:emmaabecasis@gmail.com">
-        email me</a>
-        if you have any questions about the website! </p>
     <!--img src = "" alt=""-->
+
+  <hr>
       
   <div id="models">
     <h4> The models described in this website include: </h4>
@@ -33,6 +50,106 @@
           <li>Support vector machines</li>
         </ul>
   </div>
-  <script src="main.js"></script>
+
+  <p> Below is information related to machine learning that will be useful as you enter this field! </p>
+
+  <h3>Key ML Concepts</h3>
+
+  <h4>Supervised vs. Unsupervised Learning: </h4>
+    <ul>
+      <li>Supervised learning: Models are trained using data with known outcome values (labeled data). This is common in speech recognition, medical diagnoses, fraud/spam detection, and product recommendation.</li>
+      <li>Unsupervised learning: Models process large amounts of unlabeled data and organize it by similarities and differences. This is common with data that has natural patterns, such as in fraud detection, customer segmentation, and content recommendations.</li>
+    </ul>
+
+  <h4>Basic Steps of Machine Learning: </h4>
+    <ol>
+      <li>Data collection: large amounts of data are gathered </li>
+      <li>Preprocessing: the data is cleaned, which involves removing duplicate/missing values, standardizing numerical values, and converting categorical data into a format that computers can read</li>
+      <li>Model selection: choosing a model that is relevant for the specific task</li>
+      <li>Training: the model is given training data so it can adjust parameters to make accurate predictions. A larger training data set will result a more accurate model.</li>
+      <li>Testing: the model is given a new data set that it hasn’t seen before (testing set) to measure its performance 
+        <sup id="fnref1"><a href="#fn1" class="footnote-ref">1</a></sup></li>
+    </ol>
+
+  <h4>Overfitting vs. Underfitting:</h4>
+    <ul>
+      <li>Overfitting: the model becomes too specialized to the training data and does not generalize well to new data</li>
+      <li>Underfitting: the model is too simplistic and misses important patterns in the data</li>
+    </ul>
+
+    <img src="images/fittingexample.png" alt="Overfitting and Underfitting Example" ><sup id="fnref2"><a href="#fn2" class="footnote-ref">2</a></sup>
+
+  <h4>Evaluation Metrics:</h4>
+    <p>There are many different metrics used to evaluate machine learning models. Here are a few commonly used ones:</p>
+    <ul>
+      <li>Accuracy: Number of correct predictions / Total number of predictions</li>
+      <li>Precision/Specificity: True Positives / True Positives + False Positives; Measure how many of the model’s positive predictions are correct. This metric is useful when the cost of having false positives is high, such as when making medical diagnoses.</li>
+      <li>Recall/Sensitivity: True Positives / True Positives + False Negatives; Measure of how many actual positive cases were correctly identified. This metric is useful when missing a positive case is more costly than false positives.</li>
+      <li>F1 score: 2 * (Precision * Recall) / (Precision + Recall); combines precision and recall into a single number where a higher F1 score indicates better performance.</li>
+      <li>Area Under Curve (AUC) and ROC curve: the AUC represents the probability that the model will rank a randomly chosen positive value higher than a randomly chosen negative value. The ROC curve is a graphical representation of the True Positive Rate (TPR) vs. the False Positive Rate (FPR): 
+        <img src="images/roccurve.png" width=50% alt="ROC Curve Example">
+      </li>
+      <li>Confusion Matrix:
+        <br>
+        <img src="images/confusionmatrix.png" width=50% alt="Confusion Matrix Example">
+      </li>
+      <li>Mean Squared Error (MSE): Calculates average of the squared differences between the predicted and actual values. Squaring the difference penalizes larger errors more heavily.</li>
+      <li>Root Mean Squared Error (RMSE): Square root of MSE; this brings the metric back to the same scale as the data, making it easier to interpret.</li>
+      <li>R-squared: The proportion of variance in the dependent variable that is predictable from the independent variable, which is helpful in assessing goodness of fit for regression models.
+        <sup id="fnref3"><a href="#fn3" class="footnote-ref">3</a></sup>
+      </li>
+    </ul>
+
+  <h3>Common Applications of Machine Learning </h3>
+    <ul>
+      <li>Healthcare: machine learning models can detect patterns in patient records, genetic data, and medical imaging to identify medical conditions or tailor treatments. Predictive analytics are also useful for estimating patient admission rates and optimizing staffing</li>
+      <li>Finance: machine learning models can analyze transactions and flag suspicious activity. Models are also used to determine credit scores based on a variety of factors, analyze markets, and automate trading.</li>
+      <li>Retail: many platforms use machine learning to analyze consumer behavior to give personalized recommendations. Machine learning is also used to manage inventory and provide customer service chatbots.</li>
+      <li>Transportation: machine learning is used in self-driving cars and predicting mechanical failures in vehicles before they occur.
+        <sup id="fnref1"><a href="#fn1" class="footnote-ref">1</a></sup>
+      </li>
+    </ul>
+
+  <h3>Coding Resources</h3>
+    <p> There are many different free, online platforms for coding. 
+      If you are just starting out with coding, Google Colab is a good place to start. Colab is a free, cloud-based platform where users can write and run Python on their own computers.
+      
+      <br>
+      <br>
+      
+      To access, visit <a href="https://colab.research.google.com">Google Colab</a>
+      and sign in with your Google account.
+
+      <br>
+      <br>
+      Many of these tutorials use Scikit-learn, an open source Python library that contains many tools 
+      for machine learning and statistical analysis. The full documentation for Scikit-learn can be found
+      <a href="https://scikit-learn.org/stable/documentation.html">
+        here.</a>
+</p>
+
+<p> Feel free to 
+        <a href="mailto:emmaabecasis@gmail.com">
+        email Emma Abecasis</a>
+        if you have any questions or suggestions about the website! </p>
+
+  <footer>
+    <hr class="footnotes-sep">
+<section class="footnotes">
+  <ol>
+    <li id="fn1">
+     “What Is Machine Learning? Key Concepts and Real-World Uses.” ISchool | Syracuse University, School of Information Studies, 14 Feb. 2025, ischool.syracuse.edu/what-is-machine-learning/. <a href="#fnref1" title="Return to text">↩</a>
+    </li>
+    <li id="fn2">
+      “Model Fit: Underfitting vs. Overfitting - Amazon Machine Learning.” Docs.aws.amazon.com, docs.aws.amazon.com/machine-learning/latest/dg/model-fit-underfitting-vs-overfitting.html. <a href="#fnref2" title="Return to text">↩</a>
+    </li>
+    <li id="fn3">
+      GeeksforGeeks. “Evaluation Metrics in Machine Learning.” GeeksforGeeks, Sept. 2020, www.geeksforgeeks.org/machine-learning/metrics-for-machine-learning-model/.
+      <a href="#fnref3" title="Return to text">↩</a>
+  </ol>
+</section>
+  </footer>
+
+<script src="main.js"></script>
 </body>
 </html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <html>
+    <head>
+        <title>Linear Regression</title>
+        <link rel="stylesheet" href="style.css" >
+        <meta charset = "utf-8" />
+        <meta name="viewport" content="width=device-width" />
+
+    </head>
+
+    <body>
+        <header> <h1>Machine Learning</h1></header>
+        
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="logreg.html">Logistic Regression</a></li>
+            <li><a href="linreg.html">Linear Regression</a></li>
+            <li><a href="randomforest.html">Random Forests</a></li>
+            <li><a href="svm.html">Support Vector Machines</a></li>
+            <li><a href="projects.html">Application Projects</a></li>
+          </ul>
+        </nav>
+
+        <h2>Linear Regression</h2>
+        <p> Linear regression is a machine learning model used to predict a continuous outcome variable based on input predictor variable(s). 
+          It does this by fitting a straight line (sometimes known as the line of best fit or regression line) to the data that 
+          minimizes the difference between predicted and expected values. </p>
+        <img src="images/linregline.png" width="50%" alt="Linear Regression Line">
+        
+        <h3>Simple Linear Regression<sup id="fnref1"><a href="#fn1" class="footnote-ref">1</a></sup></h3>
+        <p> Linear regression is easy to understand when it models the relationship between only two variables. 
+          First, linear regression with only two variables will be explained to make multiple linear regression easier to understand.
+        <br><br>
+          The equation for a linear regression on 2 variables is y = ax + b. </p>
+        <ul>
+          <li>b is the intercept of the true regression line, or the average value of Y when x=0.</li>
+          <li>a is the slope of the regression line or the expected/average change in Y when x increases by 1.</li>
+        </ul>
+        <p>The variance of the true regression line determines the extent that each normal curve of Y values for a 
+          given x-value spreads about the true regression line.</p>
+          <img src="images/linregvariance.png" width="50%" alt="Linear Regression Variance">
+        <p>A smaller variance means that observations almost always fall close to the regression line. However, the true regression line for a population and the true 
+          variance of the line cannot be known. Instead, we can estimate these parameters using the sample of data we have. This is how we will create a line of best fit using Least Squares Linear Regression. 
+          <br><br>
+          A line will give the best fit if the sum of the squared vertical distances (deviations) from the observations to the line is as small as possible. Essentially, we want to minimize 
+          the black vertical lines in the image below so the points are as close to the red regression line as possible. This type of regression is known as ordinary least squares or OLS regression.
+        </p>
+        <img src="images/leastsquares.png" width="50%" alt="Least Squares Linear Regression">
+        <p>The formula for the sum of squared deviations is: </p>
+        <img src="images/leastsquareseq.png" width = 25% alt="Least Squares Equation">
+        <p>The linear regression model minimizes this value by taking partial derivatives with respect to b0 and b1. 
+          If you are familiar with univariate calculus, this basically means setting the derivative equal to 0 to find a minimum value. Then, the following equations are solved: </p>
+          <img src="images/calceq.png" width="25%" alt="Equations">
+        <p>The estimate of the slope will equal: </p>
+        <img src="images/slopeeq.png" width="25%" alt="Slope Equation">
+        <p>The estimate of the intercept will equal: </p>
+        <img src="images/intercepteq.png" width="25%" alt="Intercept Equation">
+        
+      <h3>Multiple Linear Regression<sup id="fnref2"><a href="#fn2" class="footnote-ref">2</a></sup></h3>
+      <p>Multiple linear regression is used to predict the value of a response variable using multiple explanatory variables. The equation for multiple linear regression (MLS) is as follows: </p>
+      <img src="images/mlseq.png" width="50%" alt="Multiple Linear Regression Equation">
+      <ul>
+        <li>Y is the response variable and x1…xk are the predictors</li>
+        <li>B0…Bk are the coefficients</li>
+        <li>E is the error term</li>
+      </ul>
+      <p>Instead of a regression line, MLS will actually fit a regression plane since there are more than 2 dimensions. The following image shows an example of a regression model
+         E(y) with two explanatory variables x1 and x2.</p>
+      <img src="images/mlsex.png" width="50%" alt="Multiple Linear Regression Plane">
+      <p>If you are familiar with linear algebra, a multiple regression model can also be written using matrix multiplication with the following matrices:</p>
+      <img src="images/mlsmatrices.png" width="50%" alt="Multiple Linear Regression Matrices">
+      <p>The equation would then be:</p>
+      <img src="images/matrixeq.png" width="50%" alt="Multiple Linear Regression Matrix Equation">
+      <p>P = k+1 and is the number of parameters in the model, while k is the number of predictors.
+        <br><br>
+        Just like in OLS regression, least-squares can also be used in multiple regression by minimizing the sum of the squared 
+        distances from each observation to the regression plane using the following formula:
+      </p>
+      <img src="images/mlsleastsquares.png" width="30%" alt="Multiple Linear Regression Least Squares">
+      <p>When there are only two explanatory variables, this would look like minimizing the black vertical lines in the following image:</p>
+      <img src="images/mlslsgraph.png" width="50%" alt="Multiple Linear Regression Least Squares Example">
+
+    <h3>Implementation</h3>
+    <p>First, you should ensure that the data has a linear relationship by viewing scatter plots. There are a few other conditions that must be checked as well. In AP Statistics, 
+      these are often described with the LINEaR acronym (the a stands for and):</p>
+      <ul>
+        <li>Linearity: The data must have a linear relationship</li>
+        <li>Independence: The observations must be independent of each other</li>
+        <li>Normality: the residuals should follow a roughly normal distribution (this will be assessed after the model is fit and evaluated on the test data)</li>
+        <li>Equal variance: the variance of the residuals should be constant across all levels of the explanatory variable(s)</li>
+        <li>Random: The data should be from a Random sample</li>
+      </ul>
+
+      <p>Now we will run a linear regression in Google Colab using an example from Scikit-learn
+        <sup id="fnref3" ><a href="#fn3" class="footnote-ref">3</a></sup>
+        , but you can follow along using another coding platform. </p>
+      <ol>
+        <li> <img src="images/linreg1.png" width="100%" alt="SLS Step 1">
+          First, we import the necessary packages. Matplotlib pyplot is a helpful tool for creating graphs and numpy is an open source library for computing. We will also import Scikit-learn’s 
+          datasets and linear models, in addition to evaluation metrics (mean squared error and r-squared).
+        </li>
+        <li> <img src="images/linreg2.png" width="100%" alt="SLS Step 2">
+          Next, we will load the diabetes dataset into two arrays. The diabetes_X array will contain the features and diabetes_y will contain the target variable. 
+          The dataset contains 10 baseline features, including age, sex, BMI, blood pressure, and blood serum measurements from 442 diabetes patients. The response variable we want to predict is a quantitative 
+          measure of disease progression one year after the baseline measurements.<sup id="fnref4" ><a href="#fn4" class="footnote-ref">4</a></sup> <br><br>
+          For the first regression, we will only use one feature from the dataset and store it in diabetes_X. 
+        </li>
+        <li> <img src="images/linreg3.png" width="100%" alt="SLS Step 3" >
+          We will now split the dataset into training and test sets. The test set contains the last 20 observations in the dataset, and the training set contains all other observations.
+           Here, we manually split the dataset into the training and test sets, but note that you can also use the train_test_split function (as in the Logistic Regression example).
+        </li>
+        <li> <img src="images/linreg4.png" width="100%" alt="SLS Step 4">
+          Next, we will create the linear regression object, regr, and fit it to the training data using regr.fit. 
+          Then we will make predictions on the test data and store these predictions in diabetes_y_pred.
+        </li>
+        <li> <img src="images/linreg5.png" width="100%" alt="SLS Step 5">
+          To assess the model, we will print out the regression coefficients, mean squared error, and coefficient of determination. 
+          If everything ran correctly, you should get an r-squared value of 0.47. This means that only 47% of the variation in the disease progression measurement is explained by the variable we chose.
+        </li>
+        <li> <img src="images/linreg6.png" width="100%" alt="SLS Step 6">
+          Finally, we can display the results of the linear regression showing the regression line and actual values for the test set.
+        </li>
+      </ol>
+
+      <p>We can use the same dataset to run a multiple linear regression using the following steps:</p>
+      <ol>
+        <li><img src="images/mls1.png" width="100%" alt="MLS Step 1">
+          First, import the necessary packages. Most are the same as the previous linear regression, but we added the train_test_split function to make splitting the data into training and test sets simpler.
+        </li>
+        <li><img src="images/mls2.png" width="100%" alt="MLS Step 2">
+          We load the data into two arrays, diabetes_X and diabetes_y. X contains the explanatory variables and y contains the response variable. Then we split these arrays into training and testing sets using the train_test_split function. The test set will contain 20% of the data as defined by the test_size parameter. 
+          The random_state parameter ensures that the train-test split will be the same each time this code is run.
+        </li>
+        <li><img src="images/mls3.png" width="100%" alt="MLS Step 3">
+          Next, create an object, regr, to initialize the regression model. Fit the model to the training data using regr.fit. Make predictions on the test set using regr.predict and store in y_pred.
+        </li>
+        <li><img src="images/mls4.png" width="100%" alt="MLS Step 4">
+          Finally, we will evaluate our model by the mean squared error and r-squared value. The printed r-squared value should be 0.45, which indicates that only 45% of the variance in the disease progression measurement is explained by all 10 explanatory variables.
+        </li>
+      </ol>
+
+    <h3>Useful Applications</h3>
+    <p>Linear regression is helpful for predicting the value of a numerical response variable based on one or more explanatory variables. Some specific applications are: </p>
+    <ul>
+      <li>Sales forecasting: predicting future sales based on time, price, etc.</li>
+      <li>Risk assessment: predicting financial risks by historical data.</li>
+      <li>Real estate price: predicting house prices based on house characteristics.</li>
+      <li>Healthcare: predicting health metrics based on patient data.</li>
+    </ul>
+
+  <footer>
+    <hr class="footnotes-sep">
+    <section class="footnotes">
+  <ol>
+    <li id="fn1">
+     Simple Linear Regression Material from Devore’s Book (Ed 8), and Cengagebrain.com. www.colorado.edu/amath/sites/default/files/attached-files/ch12_0.pdf.
+      <a href="#fnref1" title="Return to text">↩</a>
+    </li>
+    <li id="fn2">
+      Chen, Guangliang. Multiple Linear Regression. www.sjsu.edu/faculty/guangliang.chen/Math261a/Ch3slides-multiple-linear-regression.pdf.
+      <a href="#fnref2" title="Return to text">↩</a>
+    </li>
+    <li id="fn3">
+      “Linear Regression Example.” Scikit-Learn, 2024, scikit-learn.org/1.5/auto_examples/linear_model/plot_ols.html.
+      <a href="#fnref3" title="Return to text">↩</a>
+    </li>
+    <li id="fn4"> 
+      GeeksforGeeks. “Sklearn Diabetes Dataset : Scikitlearn Toy Datasets in Python.” GeeksforGeeks, 29 Apr. 2024, www.geeksforgeeks.org/machine-learning/sklearn-diabetes-dataset/.
+      <a href="#fnref4" title="Return to text">↩</a>
+    </li>
+    <li id="fn5">
+      Shaw, Abhishek. “Linear Regression and Its Applications in Data Science.” Medium, 6 Oct. 2024, medium.com/@abhishekshaw020/linear-regression-and-its-applications-in-data-science-8d5250ca3a62.
+      <a href="#fnref5" title="Return to text">↩</a>
+    </li>
+  </ol>
+    </section>
+  </footer>
+
+    <script src="script.js"></script>
+    </body>
+    </html>
